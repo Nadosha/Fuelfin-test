@@ -23,17 +23,8 @@ services:
       DATABASE_PORT: 3306
       DATABASE_USERNAME: root
       DATABASE_PASSWORD: root
-      DATABASE_NAME: fuelfinance
+      DATABASE_NAME: test
       JWT_SECRET: 00dd14326d475df846b147e1c4cedb22c65b43ec0af81ec0e1742a6b7818b0d0
-
-  phpmyadmin:
-    image: phpmyadmin
-    restart: always
-    ports:
-      - 8080:80
-    environment:
-      PMA_HOST: mysql
-      MYSQL_ROOT_PASSWORD: root
 
   mysql:
     image:  mysql:latest
@@ -43,7 +34,7 @@ services:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: fuelfinance
+      MYSQL_DATABASE: test
     volumes:
       - mysql:/var/lib/mysql
 

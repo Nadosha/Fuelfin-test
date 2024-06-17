@@ -5,6 +5,7 @@ import {
   UseInterceptors,
   UploadedFile,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { IncomesService } from './incomes.service';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -13,12 +14,37 @@ import { diskStorage } from 'multer';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as csvParser from 'csv-parser';
+import { JwtAuthGuard } from '../auth/jwtAuth.guard';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiOperation,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 
+@ApiTags('Incomes and Reports')
 @Controller('incomes')
 export class IncomesController {
   constructor(private readonly incomesService: IncomesService) {}
 
+  @ApiBearerAuth()
   @Post('upload')
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Upload CSV file with financial transactions' })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
@@ -44,6 +70,11 @@ export class IncomesController {
   }
 
   @Get('report')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Get Report from CSV file' })
+  @ApiQuery({ name: 'source', required: false })
+  @ApiQuery({ name: 'date', required: false })
   async getReport(
     @Query('source') source: string,
     @Query('date') date: string,
@@ -52,6 +83,9 @@ export class IncomesController {
   }
 
   @Get()
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Get all items from Data base' })
   findAll() {
     return this.incomesService.findAll();
   }

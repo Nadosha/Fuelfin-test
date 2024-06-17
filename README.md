@@ -30,6 +30,30 @@ for all dates and sources.
 - [x] The app requires user to be authenticated first. by using `email` and `password`.
 - [x] Additionally, the app was dockerized for simpler starting. 
 
+# How to use:
+
+1. Signup with email and password (this will logging you automatically). This will return access token
+```bash 
+curl --location 'http://localhost:3030/auth/signup' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email": "a@b.c", // Or any other credentials
+    "password": "qwerty"
+}'
+````
+2. Upload file (rewrite curl --location 'http://localhost:3030/incomes/' \
+   --header 'Authorization: ••••••' with access token):
+```bash
+curl --location 'http://localhost:3030/incomes/upload' \
+--header 'Authorization: Bearer ••••••' \
+--form 'file=@"[path to the file]/input.csv"'
+```
+3. Generate report (rewrite curl --location 'http://localhost:3030/incomes/' \
+   --header 'Authorization: ••••••' with access token):
+```bash
+curl --location 'http://localhost:3030/incomes/report' \
+--header 'Authorization: Bearer ••••••'
+```
 # Run app with Docker [Recommended]
 
 This app can be run using Docker for easier environment setup.
