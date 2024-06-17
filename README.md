@@ -32,6 +32,10 @@ for all dates and sources.
 
 # How to use:
 
+You can use any tool for testing API that best suits you. But I'll suggest using built-in swagger (documentation), which gives you an interface for interacting with the app - http://localhost:3030/api.
+
+## For using bash or command line, here is a basic commands:
+
 1. Signup with email and password (this will logging you automatically). This will return access token
 ```bash 
 curl --location 'http://localhost:3030/auth/signup' \
