@@ -1,0 +1,51 @@
+version: '3.9'
+
+services:
+  nestjs-app:
+    container_name: nest-fuelfinanance
+    image: andriinadosha/fuelfinanance
+    platform: linux/arm64
+    working_dir: /apps/fuelfinance
+    command: yarn start:dev
+    restart: always
+    volumes:
+      - type: bind
+        source: .
+        target: /apps
+    build:
+      context: .
+    ports:
+      - "3030:3030"
+    depends_on:
+      - mysql
+    environment:
+      DATABASE_HOST: mysql
+      DATABASE_PORT: 3306
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: root
+      DATABASE_NAME: fuelfinance
+      JWT_SECRET: 00dd14326d475df846b147e1c4cedb22c65b43ec0af81ec0e1742a6b7818b0d0
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: root
+
+  mysql:
+    image:  mysql:latest
+    platform: linux/arm64
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: fuelfinance
+    volumes:
+      - mysql:/var/lib/mysql
+
+volumes:
+  mysql: {}

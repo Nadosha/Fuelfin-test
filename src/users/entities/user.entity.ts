@@ -1,19 +1,27 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import * as bcrypt from 'bcryptjs';
+import { v4 as uuidv4 } from 'uuid';
 
 @Entity({ name: 'users' })
-export class UserEntitiy {
-  @PrimaryGeneratedColumn({ type: 'bigint' })
-  id: number;
+export class UserEntity {
+  constructor() {
+    if (!this.id) {
+      this.id = uuidv4();
+    }
+  }
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @Column({ unique: true })
-  username: string;
+  @Column({ type: 'varchar', length: 255, unique: true })
+  email: string;
 
-  @Column()
+  @Column('varchar', {
+    length: 255,
+  })
   password: string;
 
-  @Column()
-  createdAt: Date;
-
-  @Column({ nullable: true })
-  authStrategy: string;
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
 }

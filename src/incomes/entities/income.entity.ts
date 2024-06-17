@@ -1,28 +1,35 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { v4 as uuidv4 } from 'uuid';
 
 export enum Source {
   INCOME = 'income',
   OTHER = 'other',
   CUSTOM = 'custom-source',
 }
-@Entity({ name: 'incomes' })
-export class IncomeEntity {
-  @PrimaryGeneratedColumn({ type: 'bigint' })
-  id: number;
 
-  @Column({ unique: true })
+@Entity({ name: 'incomes' })
+@Unique(['date', 'sum', 'source'])
+export class IncomeEntity {
+  constructor() {
+    if (!this.id) {
+      this.id = uuidv4();
+    }
+  }
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column('date', {})
   date: Date;
 
-  @Column()
+  @Column('int', { default: 0 })
   sum: number;
 
-  @Column({
-    type: 'enum',
+  @Column('enum', {
     enum: Source,
     default: Source.INCOME,
   })
   source: Source;
 
-  @Column({ nullable: true })
+  @Column('text', { nullable: true })
   description: string;
 }
