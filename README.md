@@ -20,7 +20,7 @@ for all dates and sources.
 
 ## Solution
 - [x] Upload csv file with defined schema: ` date | sum | source | description`
-- [x] Date from csv saved in MySQL DB: `Incomes`
+- [x] Data from csv saved in MySQL DB: `Incomes`
 - [x] Generating report according to defined schema: `[{source:
   ‘name’, data: [{date: ‘month+year’, total:‘’ }]}]`
 - [x] By default it returns grouped data
