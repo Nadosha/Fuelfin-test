@@ -30,6 +30,24 @@ for all dates and sources.
 - [x] The app requires user to be authenticated first. by using `email` and `password`.
 - [x] Additionally, the app was dockerized for simpler starting. 
 
+# Run app with Docker [Recommended]
+
+This app can be run using Docker for easier environment setup.
+
+## Prerequisites
+You should have installed:
+
+- Docker
+- Docker Compose
+
+## Running the app
+
+To start the containers:
+
+```bash
+docker compose up
+```
+
 # How to use:
 
 You can use any tool for testing API that best suits you. But I'll suggest using built-in swagger (documentation), which gives you an interface for interacting with the app - http://localhost:3030/api.
@@ -58,25 +76,8 @@ curl --location 'http://localhost:3030/incomes/upload' \
 curl --location 'http://localhost:3030/incomes/report' \
 --header 'Authorization: Bearer ••••••'
 ```
-# Run app with Docker [Recommended]
 
-This app can be run using Docker for easier environment setup.
-
-## Prerequisites
-You should have installed:
-
-- Docker
-- Docker Compose
-
-## Running the app
-
-To start the containers:
-
-```bash
-docker compose up
-```
-
-# Run app without Docker
+# [Appendix] Run app without Docker
 ## Installation
 
 ```bash
